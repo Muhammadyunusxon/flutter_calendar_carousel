@@ -117,7 +117,7 @@ class WeekdayRow extends StatelessWidget {
           weekDay = localeDate.dateSymbols.STANDALONEWEEKDAYS[i];
           break;
       }
-      list.add(_weekdayContainer(count, weekDay));
+      list.add(_weekdayContainer(count, weekDay.replaceFirst(weekDay[0], weekDay[0].toUpperCase())));
     }
 
     return list;
