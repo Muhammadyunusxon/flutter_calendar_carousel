@@ -753,7 +753,7 @@ class _CalendarState<T extends EventInterface>
                               now,
                             ),
                       //  if(widget.slots!=null)
-                      if (slot != null && !isPrevMonthDay)
+                      if (slot != null && !isNextMonthDay)
                         Positioned(
                             bottom: 0,
                             left: 0,
