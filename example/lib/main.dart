@@ -4,7 +4,6 @@ import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/classes/slot_model.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
-import 'package:intl/intl.dart' show DateFormat;
 
 void main() => runApp(MyApp());
 
@@ -51,10 +50,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime _currentDate = DateTime.now();
+
   DateTime _currentDate2 = DateTime.now();
-  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
-  DateTime _targetDateTime = DateTime.now();
 
 //  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
   static final Widget _eventIcon = DecoratedBox(
@@ -141,26 +138,13 @@ class _MyHomePageState extends State<MyHomePage> {
     SlotModel(DateTime(2025,4,9), 1),
     SlotModel(DateTime(2025,4,26), 24),
     SlotModel(DateTime(2025,4,28), 4),
+    SlotModel(DateTime(2025,5,3), 4),
   ];
 
   @override
   Widget build(BuildContext context) {
 
 
-   final calendarCarousel2=CalendarCarousel<Event>(
-     // todayBorderColor: Colors.green,
-     onDayPressed: (date, events) {
-       setState(() => _currentDate2 = date);
-       for (var event in events) {
-         debugPrint(event.title);
-       }
-     },
-
-      height: 420,
-     selectedDateTime: _currentDate2,
-     targetDateTime: _targetDateTime,
-
-    );
 
     return Scaffold(
         appBar: AppBar(
@@ -171,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-
+              
               CalendarCarousel(
                 daysBorderRadius: BorderRadius.circular(12),
                 height: 400,
@@ -179,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onDayPressed: (s,e){
                   setState(() => _currentDate2 = s);
                 },
-                    onlyThisMonth: true,
+                 //   onlyThisMonth: true,
                 selectedDateTime: _currentDate2,
                 thisMonthDayBorderColor: Colors.black,
                 daysHaveCircularBorder: false,

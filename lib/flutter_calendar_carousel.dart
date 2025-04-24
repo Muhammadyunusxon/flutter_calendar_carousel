@@ -738,7 +738,7 @@ class _CalendarState<T extends EventInterface>
                   final slot = getSlotForDay(now, widget.slots ?? []);
                   return  Stack(
                     children: [
-                      ((isFromPreviousMonth(now, thisDay) || isFromNextMonth(now, thisDay)) && widget.onlyThisMonth)
+                      ((isNextMonthDay || isPrevMonthDay) && widget.onlyThisMonth)
                           ? SizedBox()
                           : renderDay(
                               isSelectable,
@@ -753,7 +753,7 @@ class _CalendarState<T extends EventInterface>
                               now,
                             ),
                       //  if(widget.slots!=null)
-                      if (slot != null)
+                      if (slot != null && !isPrevMonthDay)
                         Positioned(
                             bottom: 0,
                             left: 0,
