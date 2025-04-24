@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/classes/multiple_marked_dates.dart';
+import 'package:flutter_calendar_carousel/classes/slot_model.dart';
 import 'package:flutter_calendar_carousel/src/calendar_header.dart';
 import 'package:flutter_calendar_carousel/src/default_styles.dart';
 import 'package:flutter_calendar_carousel/src/weekday_row.dart';
@@ -146,90 +147,102 @@ class CalendarCarousel<T extends EventInterface> extends StatefulWidget {
 
   ///Maximium number of dots to be shown
   final int maxDot;
+  final List<SlotModel>? slots;
+  final TextStyle beforeDayTextStyle;
+  final Color beforeDayBorderColor;
+  final TextStyle slotTextStyle;
+  final Color slotColor;
+  final bool onlyThisMonth;
 
-  const CalendarCarousel(
-      {Key? key,
-      this.viewportFraction = 1,
-      this.prevDaysTextStyle,
-      this.daysTextStyle,
-      this.nextDaysTextStyle,
-      this.prevMonthDayBorderColor = Colors.transparent,
-      this.thisMonthDayBorderColor = Colors.transparent,
-      this.nextMonthDayBorderColor = Colors.transparent,
-      this.dayPadding = 2,
-      this.height = double.infinity,
-      this.width = double.infinity,
-      this.todayTextStyle,
-      this.dayButtonColor = Colors.transparent,
-      this.todayBorderColor = Colors.red,
-      this.todayButtonColor = Colors.red,
-      this.selectedDateTime,
-      this.targetDateTime,
-      this.selectedDayTextStyle,
-      this.selectedDayBorderColor = Colors.green,
-      this.selectedDayButtonColor = Colors.green,
-      this.daysHaveCircularBorder,
-      this.daysBorderRadius,
-      this.disableDayPressed = false,
-      this.onDayPressed,
-      this.weekdayTextStyle = const TextStyle(),
-      this.iconColor = Colors.blueAccent,
-      this.headerTextStyle,
-      this.headerText,
-      this.weekendTextStyle,
-      this.markedDatesMap,
-      this.markedDateShowIcon = false,
-      this.markedDateIconBorderColor,
-      this.markedDateIconMaxShown = 2,
-      this.markedDateIconMargin = 5,
-      this.markedDateIconOffset = 5,
-      this.markedDateIconBuilder,
-      this.markedDateMoreShowTotal,
-      this.markedDateMoreCustomDecoration,
-      this.markedDateCustomShapeBorder,
-      this.markedDateCustomTextStyle,
-      this.markedDateMoreCustomTextStyle,
-      this.markedDateWidget,
-      this.multipleMarkedDates,
-      this.headerMargin = const EdgeInsets.symmetric(vertical: 16),
-      this.childAspectRatio = 1,
-      this.weekDayMargin = const EdgeInsets.only(bottom: 4),
-      this.weekDayPadding = EdgeInsets.zero,
-      this.weekDayBackgroundColor = Colors.transparent,
-      this.customWeekDayBuilder,
-      this.customDayBuilder,
-      this.showWeekDays = true,
-      this.weekFormat = false,
-      this.showHeader = true,
-      this.showHeaderButton = true,
-      this.leftButtonIcon,
-      this.rightButtonIcon,
-      this.customGridViewPhysics,
-      this.onCalendarChanged,
-      this.locale = 'en',
-      this.firstDayOfWeek,
-      this.minSelectedDate,
-      this.maxSelectedDate,
-      this.inactiveDaysTextStyle,
-      this.inactiveWeekendTextStyle,
-      this.headerTitleTouchable = false,
-      this.onHeaderTitlePressed,
-      this.onLeftArrowPressed,
-      this.onRightArrowPressed,
-      this.weekDayFormat = WeekdayFormat.short,
-      this.staticSixWeekFormat = false,
-      this.isScrollable = true,
-      this.scrollDirection = Axis.horizontal,
-      this.showOnlyCurrentMonthDate = false,
-      this.pageSnapping = false,
-      this.onDayLongPressed,
-      this.dayCrossAxisAlignment = CrossAxisAlignment.center,
-      this.dayMainAxisAlignment = MainAxisAlignment.center,
-      this.showIconBehindDayText = false,
-      this.pageScrollPhysics = const ScrollPhysics(),
-      this.shouldShowTransform = true,
-      this.maxDot = 5})
-      : super(key: key);
+  const CalendarCarousel({
+    Key? key,
+    this.viewportFraction = 1,
+    this.prevDaysTextStyle,
+    this.daysTextStyle,
+    this.nextDaysTextStyle,
+    this.prevMonthDayBorderColor = Colors.transparent,
+    this.thisMonthDayBorderColor = Colors.transparent,
+    this.nextMonthDayBorderColor = Colors.transparent,
+    this.dayPadding = 4,
+    this.height = double.infinity,
+    this.width = double.infinity,
+    this.todayTextStyle,
+    this.dayButtonColor = Colors.transparent,
+    this.todayBorderColor = Colors.red,
+    this.todayButtonColor = Colors.red,
+    this.selectedDateTime,
+    this.targetDateTime,
+    this.selectedDayTextStyle,
+    this.selectedDayBorderColor = Colors.green,
+    this.selectedDayButtonColor = Colors.green,
+    this.daysHaveCircularBorder,
+    this.daysBorderRadius,
+    this.disableDayPressed = false,
+    this.onDayPressed,
+    this.weekdayTextStyle = const TextStyle(),
+    this.iconColor = Colors.blueAccent,
+    this.headerTextStyle,
+    this.headerText,
+    this.weekendTextStyle,
+    this.markedDatesMap,
+    this.markedDateShowIcon = false,
+    this.markedDateIconBorderColor,
+    this.markedDateIconMaxShown = 2,
+    this.markedDateIconMargin = 5,
+    this.markedDateIconOffset = 5,
+    this.markedDateIconBuilder,
+    this.markedDateMoreShowTotal,
+    this.markedDateMoreCustomDecoration,
+    this.markedDateCustomShapeBorder,
+    this.markedDateCustomTextStyle,
+    this.markedDateMoreCustomTextStyle,
+    this.markedDateWidget,
+    this.multipleMarkedDates,
+    this.headerMargin = const EdgeInsets.symmetric(vertical: 16),
+    this.childAspectRatio = 1,
+    this.weekDayMargin = const EdgeInsets.only(bottom: 4),
+    this.weekDayPadding = EdgeInsets.zero,
+    this.weekDayBackgroundColor = Colors.transparent,
+    this.customWeekDayBuilder,
+    this.customDayBuilder,
+    this.showWeekDays = true,
+    this.weekFormat = false,
+    this.showHeader = true,
+    this.showHeaderButton = true,
+    this.leftButtonIcon,
+    this.rightButtonIcon,
+    this.customGridViewPhysics,
+    this.onCalendarChanged,
+    this.locale = 'en',
+    this.firstDayOfWeek = 1,
+    this.minSelectedDate,
+    this.maxSelectedDate,
+    this.inactiveDaysTextStyle,
+    this.inactiveWeekendTextStyle,
+    this.headerTitleTouchable = false,
+    this.onHeaderTitlePressed,
+    this.onLeftArrowPressed,
+    this.onRightArrowPressed,
+    this.weekDayFormat = WeekdayFormat.short,
+    this.staticSixWeekFormat = false,
+    this.isScrollable = true,
+    this.scrollDirection = Axis.horizontal,
+    this.showOnlyCurrentMonthDate = false,
+    this.pageSnapping = false,
+    this.onDayLongPressed,
+    this.dayCrossAxisAlignment = CrossAxisAlignment.center,
+    this.dayMainAxisAlignment = MainAxisAlignment.center,
+    this.showIconBehindDayText = false,
+    this.pageScrollPhysics = const ScrollPhysics(),
+    this.shouldShowTransform = true,
+    this.maxDot = 5,
+    this.slots,
+    this.beforeDayTextStyle = const TextStyle(color: Colors.black12),
+    this.beforeDayBorderColor = Colors.black12,
+    this.slotColor = Colors.green,
+    this.slotTextStyle = const TextStyle(fontSize: 11, color: Colors.white),
+    this.onlyThisMonth = false,
+  }) : super(key: key);
 
   @override
   State<CalendarCarousel<T>> createState() => _CalendarState<T>();
@@ -295,6 +308,22 @@ class _CalendarState<T extends EventInterface>
     _setDate();
   }
 
+  bool isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  int? getSlotForDay(DateTime day, List<SlotModel> slotList) {
+    for (var slot in slotList) {
+      if (isSameDay(slot.time, day) &&
+          day.isAfter(thisDay.subtract(Duration(days: 1)))) {
+        return slot.slot;
+      }
+    }
+    return null;
+  }
+
+  DateTime thisDay = DateTime.now();
+
   @override
   void didUpdateWidget(CalendarCarousel<T> oldWidget) {
     if (widget.targetDateTime != null && widget.targetDateTime != _targetDate) {
@@ -305,10 +334,22 @@ class _CalendarState<T extends EventInterface>
     super.didUpdateWidget(oldWidget);
   }
 
+  TextStyle onlyMonthStyle = TextStyle(color: Colors.transparent);
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  bool isFromPreviousMonth(DateTime date, DateTime currentMonth) {
+    return (date.year < currentMonth.year) ||
+        (date.year == currentMonth.year && date.month < currentMonth.month);
+  }
+
+  bool isFromNextMonth(DateTime date, DateTime currentMonth) {
+    return (date.year > currentMonth.year) ||
+        (date.year == currentMonth.year && date.month > currentMonth.month);
   }
 
   void _init() {
@@ -341,9 +382,8 @@ class _CalendarState<T extends EventInterface>
       height: widget.height,
       child: Column(
         children: <Widget>[
-          CalendarHeader(
+          CalendarHeader2(
             showHeader: widget.showHeader,
-            headerMargin: widget.headerMargin,
             headerTitle: headerText ??
                 (widget.weekFormat
                     ? _localeDate.format(this._weeks[this._pageNum].first)
@@ -480,7 +520,6 @@ class _CalendarState<T extends EventInterface>
     // If day is in Multiple selection mode, get its color
     bool isMultipleMarked = widget.multipleMarkedDates?.isMarked(now) ?? false;
     Color? multipleMarkedColor = widget.multipleMarkedDates?.getColor(now);
-
     final markedDatesMap = widget.markedDatesMap;
     return Container(
       margin: EdgeInsets.all(widget.dayPadding),
@@ -505,7 +544,10 @@ class _CalendarState<T extends EventInterface>
                                           ? widget.prevMonthDayBorderColor
                                           : isNextMonthDay
                                               ? widget.nextMonthDayBorderColor
-                                              : widget.thisMonthDayBorderColor,
+                                              : thisDay.isAfter(now)
+                                                  ? widget.beforeDayBorderColor
+                                                  : widget
+                                                      .thisMonthDayBorderColor,
                             ),
                           )
                         : RoundedRectangleBorder(
@@ -520,7 +562,10 @@ class _CalendarState<T extends EventInterface>
                                           ? widget.prevMonthDayBorderColor
                                           : isNextMonthDay
                                               ? widget.nextMonthDayBorderColor
-                                              : widget.thisMonthDayBorderColor,
+                                              : thisDay.isAfter(now)
+                                                  ? widget.beforeDayBorderColor
+                                                  : widget
+                                                      .thisMonthDayBorderColor,
                             ),
                           ),
             backgroundColor: isSelectedDay
@@ -661,7 +706,9 @@ class _CalendarState<T extends EventInterface>
                         ? widget.selectedDayTextStyle
                         : isToday
                             ? widget.todayTextStyle
-                            : widget.daysTextStyle;
+                            : thisDay.isAfter(now)
+                                ? widget.beforeDayTextStyle
+                                : widget.daysTextStyle;
                     defaultTextStyle = isSelectedDay
                         ? defaultSelectedDayTextStyle
                         : isToday
@@ -688,18 +735,44 @@ class _CalendarState<T extends EventInterface>
                       maxDate.millisecondsSinceEpoch) {
                     isSelectable = false;
                   }
-
-                  return renderDay(
-                      isSelectable,
-                      index,
-                      isSelectedDay,
-                      isToday,
-                      isPrevMonthDay,
-                      textStyle,
-                      defaultTextStyle,
-                      isNextMonthDay,
-                      isThisMonthDay,
-                      now);
+                  final slot = getSlotForDay(now, widget.slots ?? []);
+                  return  Stack(
+                    children: [
+                      ((isFromPreviousMonth(now, thisDay) || isFromNextMonth(now, thisDay)) && widget.onlyThisMonth)
+                          ? SizedBox()
+                          : renderDay(
+                              isSelectable,
+                              index,
+                              isSelectedDay,
+                              isToday,
+                              isPrevMonthDay,
+                              textStyle,
+                              defaultTextStyle,
+                              isNextMonthDay,
+                              isThisMonthDay,
+                              now,
+                            ),
+                      //  if(widget.slots!=null)
+                      if (slot != null)
+                        Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 8),
+                                padding: EdgeInsets.symmetric(horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: widget.slotColor,
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: Center(
+                                    child: Text(
+                                  "${slot.toString()} slots",
+                                  style: widget.slotTextStyle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ))))
+                    ],
+                  );
                 }),
               ),
             ),
@@ -791,16 +864,17 @@ class _CalendarState<T extends EventInterface>
                       isSelectable = false;
                     }
                     return renderDay(
-                        isSelectable,
-                        index,
-                        isSelectedDay,
-                        isToday,
-                        isPrevMonthDay,
-                        textStyle,
-                        defaultTextStyle,
-                        isNextMonthDay,
-                        isThisMonthDay,
-                        now);
+                      isSelectable,
+                      index,
+                      isSelectedDay,
+                      isToday,
+                      isPrevMonthDay,
+                      textStyle,
+                      defaultTextStyle,
+                      isNextMonthDay,
+                      isThisMonthDay,
+                      now,
+                    );
                   }),
                 ),
               ),

@@ -78,7 +78,7 @@ class MultipleMarkedDates {
     return results.date;
   }
 
-  TextStyle? getTextStyle(DateTime date) {
+  TextStyle? getTextStyle(DateTime date,) {
     final results = markedDates.firstWhere((element) => element.date == date,
         orElse: () => MarkedDate(color: Colors.black, date: DateTime(0)));
     return results.textStyle;
