@@ -288,7 +288,7 @@ class _CalendarState<T extends EventInterface>
       /// width percentage
     );
 
-    _localeDate = DateFormat.yMMM(widget.locale);
+    _localeDate = DateFormat.yMMMM(widget.locale);
     firstDayOfWeek = widget.firstDayOfWeek ??
         (_localeDate.dateSymbols.FIRSTDAYOFWEEK + 1) % 7;
 
@@ -336,8 +336,6 @@ class _CalendarState<T extends EventInterface>
   @override
   Widget build(BuildContext context) {
     final headerText = widget.headerText;
-    print(widget.maxSelectedDate);
-    print(widget.weekFormat ? true:this._dates[this._pageNum]);
     return SizedBox(
       width: widget.width,
       height: widget.height,
