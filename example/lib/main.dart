@@ -187,6 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
           debugPrint(event.title);
         }
       },
+      contentPadding: EdgeInsets.symmetric(horizontal: 16),
       daysHaveCircularBorder: true,
       showOnlyCurrentMonthDate: false,
       weekendTextStyle: TextStyle(
@@ -299,10 +300,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: calendarCarouselNoHeader,
-              ),
+              calendarCarouselNoHeader,
             ],
           ),
         ));
