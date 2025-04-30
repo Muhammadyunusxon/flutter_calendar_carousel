@@ -336,6 +336,8 @@ class _CalendarState<T extends EventInterface>
   @override
   Widget build(BuildContext context) {
     final headerText = widget.headerText;
+    print(widget.maxSelectedDate);
+    print(widget.weekFormat ? true:this._dates[this._pageNum]);
     return SizedBox(
       width: widget.width,
       height: widget.height,
@@ -349,7 +351,14 @@ class _CalendarState<T extends EventInterface>
                     ? _localeDate.format(this._weeks[this._pageNum].first)
                     : _localeDate.format(this._dates[this._pageNum])),
             headerTextStyle: widget.headerTextStyle,
-            showHeaderButtons: widget.showHeaderButton,
+            showLeftHeaderButtons: widget.showHeaderButton && widget.weekFormat
+                ? true
+                : (widget.minSelectedDate?.copyWith(day:1).isBefore(this._dates[this._pageNum].copyWith(day: 1)) ??
+                    true),
+            showRightHeaderButtons: widget.showHeaderButton && widget.weekFormat
+                ? true
+                : (widget.maxSelectedDate?.copyWith(day: 1).isAfter(this._dates[this._pageNum].copyWith(day: 1)) ??
+                    true),
             headerIconColor: widget.iconColor,
             leftButtonIcon: widget.leftButtonIcon,
             rightButtonIcon: widget.rightButtonIcon,
