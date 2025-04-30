@@ -82,7 +82,7 @@ class CalendarCarousel<T extends EventInterface> extends StatefulWidget {
   final String? headerText;
   final TextStyle? weekendTextStyle;
   final EventList<T>? markedDatesMap;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry contentPadding;
 
   /// Change `makredDateWidget` when `markedDateShowIcon` is set to false.
   final Widget? markedDateWidget;
@@ -344,7 +344,7 @@ class _CalendarState<T extends EventInterface>
       child: Column(
         children: <Widget>[
           Padding(
-            padding: widget.padding,
+            padding: widget.contentPadding,
             child: CalendarHeader(
               showHeader: widget.showHeader,
               headerMargin: widget.headerMargin,
@@ -395,7 +395,7 @@ class _CalendarState<T extends EventInterface>
             ),
           ),
           Padding(
-            padding: widget.padding,
+            padding: widget.contentPadding,
             child: WeekdayRow(
               firstDayOfWeek,
               widget.customWeekDayBuilder,
@@ -422,7 +422,7 @@ class _CalendarState<T extends EventInterface>
             controller: _controller,
             itemBuilder: (context, index) {
               return Padding(
-                padding: widget.padding,
+                padding: widget.contentPadding,
                 child: widget.weekFormat ? weekBuilder(index) : builder(index),
               );
             },
