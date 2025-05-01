@@ -50,10 +50,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime _currentDate = DateTime(2019, 2, 3);
-  DateTime _currentDate2 = DateTime(2019, 2, 3);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(2019, 2, 3));
-  DateTime _targetDateTime = DateTime(2019, 2, 3);
+  DateTime _currentDate = DateTime(2025, 2, 3);
+  DateTime _currentDate2 = DateTime(2025, 2, 3);
+  String _currentMonth = DateFormat.yMMM().format(DateTime(2025, 2, 3));
+  DateTime _targetDateTime = DateTime(2025, 2, 3);
 
 //  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
   static final Widget _eventIcon = DecoratedBox(
@@ -69,9 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final EventList<Event> _markedDateMap = EventList<Event>(
     events: {
-      DateTime(2019, 2, 10): [
+      DateTime(2025, 2, 10): [
         Event(
-          date: DateTime(2019, 2, 10),
+          date: DateTime(2025, 2, 10),
           title: 'Event 1',
           icon: _eventIcon,
           dot: Container(
@@ -82,12 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         Event(
-          date: DateTime(2019, 2, 10),
+          date: DateTime(2025, 2, 10),
           title: 'Event 2',
           icon: _eventIcon,
         ),
         Event(
-          date: DateTime(2019, 2, 10),
+          date: DateTime(2025, 2, 10),
           title: 'Event 3',
           icon: _eventIcon,
         ),
@@ -99,34 +99,34 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     /// Add more events to _markedDateMap EventList
     _markedDateMap.add(
-        DateTime(2019, 2, 25),
+        DateTime(2025, 2, 25),
         Event(
-          date: DateTime(2019, 2, 25),
+          date: DateTime(2025, 2, 25),
           title: 'Event 5',
           icon: _eventIcon,
         ));
 
     _markedDateMap.add(
-        DateTime(2019, 2, 10),
+        DateTime(2025, 2, 10),
         Event(
-          date: DateTime(2019, 2, 10),
+          date: DateTime(2025, 2, 10),
           title: 'Event 4',
           icon: _eventIcon,
         ));
 
-    _markedDateMap.addAll(DateTime(2019, 2, 11), [
+    _markedDateMap.addAll(DateTime(2025, 2, 11), [
       Event(
-        date: DateTime(2019, 2, 11),
+        date: DateTime(2025, 2, 11),
         title: 'Event 1',
         icon: _eventIcon,
       ),
       Event(
-        date: DateTime(2019, 2, 11),
+        date: DateTime(2025, 2, 11),
         title: 'Event 2',
         icon: _eventIcon,
       ),
       Event(
-        date: DateTime(2019, 2, 11),
+        date: DateTime(2025, 2, 11),
         title: 'Event 3',
         icon: _eventIcon,
       ),
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
       weekFormat: true,
       markedDatesMap: _markedDateMap,
       height: 200,
-      selectedDateTime: _currentDate2,
+      selectedDates: [_currentDate2],
       showIconBehindDayText: true,
 //          daysHaveCircularBorder: false, /// null for not rendering any border, true for circular border, false for rectangular border
       customGridViewPhysics: NeverScrollableScrollPhysics(),
@@ -198,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //      firstDayOfWeek: 4,
       markedDatesMap: _markedDateMap,
       height: 420,
-      selectedDateTime: _currentDate2,
+      selectedDates: [_currentDate2],
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
       markedDateCustomShapeBorder:
