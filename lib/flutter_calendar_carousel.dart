@@ -905,7 +905,9 @@ class _CalendarState<T extends EventInterface>
     if (selected != null) {
       // updating selected date range based on selected week
       setState(() {
-        _selectedDates = [selected];
+        _selectedDates.contains(selected)
+            ? _selectedDates.remove(selected)
+            : _selectedDates.add(selected);
       });
       widget.onDayPressed?.call(
           selected, widget.markedDatesMap?.getEvents(selected) ?? const []);
