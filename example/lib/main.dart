@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
-import 'package:intl/intl.dart' show DateFormat;
 
 void main() => runApp(MyApp());
 
@@ -33,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime _currentDate = DateTime.now();
+  final DateTime _currentDate = DateTime.now();
   DateTime? _currentDate2;
 
   @override

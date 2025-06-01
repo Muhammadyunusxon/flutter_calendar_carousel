@@ -149,7 +149,7 @@ class CalendarCarousel<T extends EventInterface> extends StatefulWidget {
   final int maxDot;
 
   const CalendarCarousel(
-      {Key? key,
+      {super.key,
       this.viewportFraction = 1,
       this.prevDaysTextStyle,
       this.daysTextStyle,
@@ -230,8 +230,7 @@ class CalendarCarousel<T extends EventInterface> extends StatefulWidget {
       this.showIconBehindDayText = false,
       this.pageScrollPhysics = const ScrollPhysics(),
       this.shouldShowTransform = true,
-      this.maxDot = 5})
-      : super(key: key);
+      this.maxDot = 5});
 
   @override
   State<CalendarCarousel<T>> createState() => _CalendarState<T>();
@@ -894,7 +893,9 @@ class _CalendarState<T extends EventInterface>
 
   void _onDayPressed(DateTime picked) {
     if (picked.millisecondsSinceEpoch <
-        minDate.subtract(Duration(days: 1)).millisecondsSinceEpoch) return;
+        minDate.subtract(Duration(days: 1)).millisecondsSinceEpoch) {
+      return;
+    }
     if (picked.millisecondsSinceEpoch > maxDate.millisecondsSinceEpoch) return;
     _selectedDates.contains(picked)
         ? _selectedDates.remove(picked)
