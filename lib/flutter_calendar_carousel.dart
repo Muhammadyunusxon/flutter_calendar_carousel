@@ -271,7 +271,7 @@ class _CalendarState<T extends EventInterface>
     super.initState();
     initializeDateFormatting();
 
-    minDate = widget.minSelectedDate ?? DateTime(2018);
+    minDate = widget.minSelectedDate?.subtract(Duration(days: 1)) ?? DateTime(2018);
     maxDate = widget.maxSelectedDate ??
         DateTime(
             DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
