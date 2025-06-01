@@ -271,7 +271,7 @@ class _CalendarState<T extends EventInterface>
     super.initState();
     initializeDateFormatting();
 
-    minDate = widget.minSelectedDate?.subtract(Duration(days: 1)) ?? DateTime(2018);
+    minDate = widget.minSelectedDate ?? DateTime(2018);
     maxDate = widget.maxSelectedDate ??
         DateTime(
             DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
@@ -354,12 +354,16 @@ class _CalendarState<T extends EventInterface>
                       ? _localeDate.format(this._weeks[this._pageNum].first)
                       : _localeDate.format(this._dates[this._pageNum])),
               headerTextStyle: widget.headerTextStyle,
-              showLeftHeaderButtons:
-                  widget.showHeaderButton && widget.weekFormat
-                      ? true
-                      : (widget.minSelectedDate?.copyWith(day: 1,month: (widget.minSelectedDate?.month ?? 2)).isBefore(
+              showLeftHeaderButtons: widget.showHeaderButton &&
+                      widget.weekFormat
+                  ? true
+                  : (widget.minSelectedDate
+                          ?.copyWith(
+                              day: 1,
+                              month: (widget.minSelectedDate?.month ?? 2))
+                          .isBefore(
                               this._dates[this._pageNum].copyWith(day: 1)) ??
-                          true),
+                      true),
               showRightHeaderButtons:
                   widget.showHeaderButton && widget.weekFormat
                       ? true
@@ -709,7 +713,9 @@ class _CalendarState<T extends EventInterface>
                   }
                   bool isSelectable = true;
                   if (now.millisecondsSinceEpoch <
-                      minDate.millisecondsSinceEpoch) {
+                      minDate
+                          .subtract(Duration(days: 1))
+                          .millisecondsSinceEpoch) {
                     isSelectable = false;
                   } else if (now.millisecondsSinceEpoch >
                       maxDate.millisecondsSinceEpoch) {
@@ -815,7 +821,9 @@ class _CalendarState<T extends EventInterface>
 
                     bool isSelectable = true;
                     if (now.millisecondsSinceEpoch <
-                        minDate.millisecondsSinceEpoch) {
+                        minDate
+                            .subtract(Duration(days: 1))
+                            .millisecondsSinceEpoch) {
                       isSelectable = false;
                     } else if (now.millisecondsSinceEpoch >
                         maxDate.millisecondsSinceEpoch) {
@@ -885,7 +893,8 @@ class _CalendarState<T extends EventInterface>
   }
 
   void _onDayPressed(DateTime picked) {
-    if (picked.millisecondsSinceEpoch < minDate.millisecondsSinceEpoch) return;
+    if (picked.millisecondsSinceEpoch <
+        minDate.subtract(Duration(days: 1)).millisecondsSinceEpoch) return;
     if (picked.millisecondsSinceEpoch > maxDate.millisecondsSinceEpoch) return;
     _selectedDates.contains(picked)
         ? _selectedDates.remove(picked)
