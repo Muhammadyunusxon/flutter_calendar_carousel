@@ -276,8 +276,8 @@ class _CalendarState<T extends EventInterface>
         DateTime(
             DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
 
-    final selectedDateTime = widget.selectedDates;
-    if (selectedDateTime != null) _selectedDates = selectedDateTime;
+    final selectedDateTime = List<DateTime>.from(widget.selectedDates ?? []);
+    if (selectedDateTime.isNotEmpty) _selectedDates = selectedDateTime;
 
     _init();
 
@@ -357,7 +357,7 @@ class _CalendarState<T extends EventInterface>
               showLeftHeaderButtons:
                   widget.showHeaderButton && widget.weekFormat
                       ? true
-                      : (widget.minSelectedDate?.copyWith(day: 1).isBefore(
+                      : (widget.minSelectedDate?.copyWith(day: 1,month: (widget.minSelectedDate?.month ?? 2)).isBefore(
                               this._dates[this._pageNum].copyWith(day: 1)) ??
                           true),
               showRightHeaderButtons:
@@ -812,6 +812,7 @@ class _CalendarState<T extends EventInterface>
                     } else {
                       return Container();
                     }
+
                     bool isSelectable = true;
                     if (now.millisecondsSinceEpoch <
                         minDate.millisecondsSinceEpoch) {
